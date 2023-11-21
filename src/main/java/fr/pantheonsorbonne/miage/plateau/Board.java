@@ -87,4 +87,7 @@ public class Board {
     public Board() {
         initializeProperties();
     }
+
+
+    
 }

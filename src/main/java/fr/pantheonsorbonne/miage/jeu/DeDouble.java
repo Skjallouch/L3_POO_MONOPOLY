@@ -1,10 +1,11 @@
 package jeu;
-//import plateau.GoToJail;
-
 
 public class DeDouble {
     private int valeurDe;
     private static final int VALEUR_MAX = 12;
+    private static final int VALEUR_MIN_DE = 1;
+    private static final int VALEUR_MAX_DE = 6;
+    private static final int NB_LANCERS_DOUBLE_MAX = 3;
     protected int resultatDe;
     private boolean memeValeur;
 
@@ -22,30 +23,33 @@ public class DeDouble {
         return memeValeur;
     }
 
-    public int resultatDe() {
+    public int getResultatDe() {
         return resultatDe;
     }
-    
 
     public void lancerDes() {
-        //lancer deux dés
-        int de1 = (int) (Math.random() * 6) + 1;  // Valeur entre 1 et 6
-        int de2 = (int) (Math.random() * 6) + 1;
+        // Lancer deux dés
+        int de1 = (int) (Math.random() * (VALEUR_MAX_DE - VALEUR_MIN_DE + 1)) + VALEUR_MIN_DE;
+        int de2 = (int) (Math.random() * (VALEUR_MAX_DE - VALEUR_MIN_DE + 1)) + VALEUR_MIN_DE;
 
-        // résultat et la valeur du dé
+        // Résultat et valeur du dé
         resultatDe = de1 + de2;
         valeurDe = Math.min(resultatDe, VALEUR_MAX);
 
-        // si deux dés ont la mm valeur
+        // Si les deux dés ont la même valeur
         memeValeur = de1 == de2;
     }
 
+    public void lancerEtVerifierDes() {
+        lancerDes();
+        memeValeurDes();
+    }
 
     public void memeValeurDes() {
         int nbLancersDoublesConsecutifs = 0; // Compteur de dés doubles consécutifs
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NB_LANCERS_DOUBLE_MAX; i++) {
             lancerDes();
-            // si les dés ont la même valeur
+            // Si les dés ont la même valeur
             if (memeValeur()) {
                 nbLancersDoublesConsecutifs++;
             } else {
@@ -53,18 +57,22 @@ public class DeDouble {
             }
         }
         // Si le joueur a obtenu des dés doubles pendant trois lancers consécutifs
-        if (nbLancersDoublesConsecutifs == 3 && memeValeur()) {
-            Prison.conditionPourAllerEnPrison(null, nbLancersDoublesConsecutifs, memeValeur, memeValeur, memeValeur);; // Le joueur va en prison
+        if (nbLancersDoublesConsecutifs == NB_LANCERS_DOUBLE_MAX && memeValeur()) {
+            // Prison.conditionPourAllerEnPrison(...); // Le joueur va en prison
         }
     }
+}
+
    
+
+
     /* 
     public void avancerJoueur(Joueur joueur) {
         //position du joueur en fonction du résultat des dés
         joueur.avancer(resultatDe);
     };*/
     //on sait pas quoi faire avec 
-}
+
 
 
 /*Dans dedouble faut faire : 

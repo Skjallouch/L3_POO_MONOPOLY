@@ -8,10 +8,13 @@ import plateau.properties.Properties;
 
 public class Prison extends Joueur {
 
+    private static final int COUT_LIBERATION_PRISON = 50;
+
     public Prison(String name, int porteMonnaie, int positionPlateau, List<Properties> properties, boolean enPrison) {
         super(name, porteMonnaie, positionPlateau, properties, enPrison);
     }
-    public static void conditionPourAllerEnPrison(JoueurAvance joueurAvance, int nbLancersDoublesConsecutifs, boolean cartePrison, boolean goToJail, boolean jail) {
+
+    public static void allerEnPrison(JoueurAvance joueurAvance, int nbLancersDoublesConsecutifs, boolean cartePrison, boolean goToJail, boolean jail) {
         if (nbLancersDoublesConsecutifs == 3 && joueurAvance.memeValeur()) {
             joueurAvance.setJail(true);
         }
@@ -21,21 +24,20 @@ public class Prison extends Joueur {
         if (goToJail && jail) {
             joueurAvance.setJail(true);
         }
-    }  
-    public static int conditionPourSortirDePrison(int porteMonnaie, boolean cartePrison, int doubleDe, int nbLancersDoublesConsecutifs, JoueurAvance joueurAvance, int POS_JAIL) {
+    }
+
+    public static int sortirDePrison(int porteMonnaie, boolean cartePrison, int doubleDe, int nbLancersDoublesConsecutifs, JoueurAvance joueurAvance) {
         if (nbLancersDoublesConsecutifs == 2 && joueurAvance.memeValeur()) {
-            // JoueurAvance.getOutJail(); 
-            return POS_JAIL + 1;
+            return joueurAvance.getPositionPlateau() + 1;
         }
-        if (porteMonnaie > 50) {
-            porteMonnaie -= 50;
-            return POS_JAIL + 1;
+        if (porteMonnaie > COUT_LIBERATION_PRISON) {
+            return joueurAvance.getPositionPlateau() + 1;
         }
         if (cartePrison) {
-            return POS_JAIL + 1;
+            return joueurAvance.getPositionPlateau() + 1;
         }
         // Gérer le cas où aucune condition n'est satisfaite
-        throw new IllegalArgumentException("Aucune condition pour sortir de prison n'est satisfaite.");
+        return joueurAvance.getPositionPlateau(); // ou autre valeur par défaut
     }
 }
 
