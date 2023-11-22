@@ -3,6 +3,8 @@ package plateau;
 import plateau.properties.Properties;
 import plateau.properties.Station;
 import plateau.properties.Utilities;
+import java.awt.Color;
+
 
 public class Board { 
     public static final int NUM_SQUARES = 40;
@@ -36,12 +38,14 @@ public class Board {
     //price, color et une rente qui peut augmenter
     private void initializeProperties() {
             
+        try {
+
         cases[0] = new Start ("Case Départ", 0,COLORLESS);
         cases[1] = new Properties ("Boulevard de BelleVille",60, BROWN, new int[] { 2, 4, 10, 30, 90, 160 }, 50 );
         cases[2] = new CommunityChest ( "Caisse de Communalité", 0, COLORLESS);
         cases[3] = new Properties( "Rue LeCourbe",60, BROWN,  new int[] { 4, 8, 20, 60, 180, 320 }, 50);
         cases[4] = new Taxes ("Impôts sur le Revenu", 200,COLORLESS);
-        cases[5] = new Station ( "Gare de Montparnasse", 200,COLORLESS);
+        cases[5] = new Station("Gare de Montparnasse", 200, COLORLESS);
         cases[6] = new Properties("Rue de Vaugirard", 100, LIGHT_BLUE, new int[] { 6, 12, 30, 90, 270, 400 }, 50);
         cases[7] = new Chance ("Chance",0,COLORLESS);
         cases[8] = new Properties("Rue de Courcelles", 100, LIGHT_BLUE, new int[] { 2, 12, 30, 90, 270, 400 }, 50);
@@ -77,7 +81,12 @@ public class Board {
         cases[38] = new Taxes ("Taxe de Luxe", 100,COLORLESS);
         cases[39] = new Properties("Rue de la Paix", 400, BLUE, new int[] { 50, 100, 200, 600, 1400,1700 }, 200);  
 
+    } catch (ArrayIndexOutOfBoundsException e) {
+        System.err.println("Erreur lors de l'initialisation des propriétés : Index de tableau hors limites");
+        e.printStackTrace(); // Cela affichera la trace de la pile pour des fins de débogage
     }
+    
+    
 
 
     private Properties createProperty(String name, int price, Color color, int[] rent, int buildingCost) {
@@ -89,5 +98,7 @@ public class Board {
     }
 
 
-    
+
+    }
+
 }
